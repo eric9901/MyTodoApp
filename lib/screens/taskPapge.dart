@@ -52,15 +52,18 @@ class _TaskpageState extends State<Taskpage> {
             ],
             ),
           ),
-          TextField(
-            decoration:InputDecoration(
-              hintText: "Enter Description for the task",
-               border: InputBorder.none,
-               contentPadding: EdgeInsets.symmetric(
-                 horizontal: 64.0,
-               )
-               ),
-              ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration:InputDecoration(
+                hintText: "Enter Description for the task",
+                 border: InputBorder.none,
+                 contentPadding: EdgeInsets.symmetric(
+                   horizontal: 64.0,
+                 )
+                 ),
+                ),
+          ),
           TodoWidget(),
         ], 
       ),

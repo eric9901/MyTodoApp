@@ -54,23 +54,36 @@ class TodoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal:24.0,
+        vertical: 8.0,
+      ),
       child: Row(
         children: [
           Container(
             width:20.0,
             height:20.0,
-           /* decoration: BoxDecoration(
-              color: Color(0xFF7349FE)
-            ),*/
-          color:Color(0xFF7349FE),
+            margin: EdgeInsets.only(
+              right:12.0,
+            ),
+            decoration: BoxDecoration(
+              color: Color(0xFF7349FE),
+              borderRadius: BorderRadius.circular(6.0)
+            ),
           child: Image(
             image: AssetImage(
               'assets/images/check_icon.png'
             ),
            ),
           ),
-          Text("todo"),
-          
+          Text(
+            "todo",
+          style:TextStyle(
+            color:Color(0xFF211551),
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            )
+          ),
         ],
       ),
     );
