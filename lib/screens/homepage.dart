@@ -1,8 +1,9 @@
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:todoapp/screens/taskPapge.dart';
 
+import '../database_helper.dart';
 import '../widget.dart';
 class Homepage extends StatefulWidget {
   
@@ -12,6 +13,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageStat extends State<Homepage> {
+  DatabaseHelper _dbHelper = DatabaseHelper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +21,7 @@ class _HomepageStat extends State<Homepage> {
           child: Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(
-              horizontal: 24.0, 
-          
+              horizontal: 24.0,     
            ),
            color: Color(0x66CCFF),
            child: Stack(
@@ -40,19 +41,19 @@ class _HomepageStat extends State<Homepage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                    children: [
-                      TaskCardWidget(
-                    title: "Get Started! Let try my to do app",
-                    desc: "Welcom User. Here is my Todo app. This is the default remind that you can edit or delete to start using the app."
-                  ),
-                  TaskCardWidget(),
-                  TaskCardWidget(),
-                  TaskCardWidget(),
-                  TaskCardWidget(),
-                  ],
+                     child: FutureBuilder(
+                       future: _dbHelper.getTasks(),
+                       builder: (context, snapshot){
+                         return ListView.builder(
+                           itemCount: snapshot.data.toString().length,
+                           itemBuilder: (context, index){
+                             return TaskCardWidget();
+                           },
+                           );
+                       },
+                     ),
                     ),
-                  ),
+                  
                  ],
                 ),
                Positioned(
@@ -70,7 +71,11 @@ class _HomepageStat extends State<Homepage> {
                   width: 70.0,
                   height: 70.0,
                   decoration: BoxDecoration(
-                   color: Color(0xFF46FF90),
+                    gradient: LinearGradient(
+                   colors: [Color(0xFF60F078),Color(0xFF643FDB)],
+                   begin: Alignment(0.0,-1.0),
+                   end: Alignment(0.0,1.0)
+                    ),
                    borderRadius: BorderRadius.circular(20.0),
                  ),
                   child: Image(
