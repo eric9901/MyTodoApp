@@ -1,17 +1,15 @@
 
 
 import 'package:flutter/material.dart';
+
 import 'package:todoapp/screens/taskPapge.dart';
 
 import '../database_helper.dart';
 import '../widget.dart';
 class Homepage extends StatefulWidget {
-  
-
   @override
   _HomepageStat createState() => _HomepageStat();
 }
-
 class _HomepageStat extends State<Homepage> {
   DatabaseHelper _dbHelper = DatabaseHelper();
   @override
@@ -42,18 +40,33 @@ class _HomepageStat extends State<Homepage> {
                   ),
                   Expanded(
                      child: FutureBuilder(
+                       initialData: [],
                        future: _dbHelper.getTasks(),
-                       builder: (context, snapshot){
-                         return ListView.builder(
-                           itemCount: snapshot.data.toString().length,
+                       builder: (context, AsyncSnapshot snapshot){
+                         return ScrollConfiguration(
+                          behavior: NoGlowBehaviour(), 
+                          child: ListView.builder(   
+                           itemCount: snapshot.data!.length ,
                            itemBuilder: (context, index){
-                             return TaskCardWidget();
-                           },
-                           );
+                             return GestureDetector(
+                               onTap:(){
+                                Navigator.push(context,
+                                MaterialPageRoute( builder:(context) =>Taskpage(
+                                  task: snapshot.data![index],
+                                 )),
+                                ).then((value) {setState(() {
+                                  
+                                });});
+                               },
+                             child: TaskCardWidget(
+                               title: snapshot.data![index].title,
+                             ),);
+                             },
+                         ),
+                         );
                        },
                      ),
                     ),
-                  
                  ],
                 ),
                Positioned(
@@ -63,9 +76,11 @@ class _HomepageStat extends State<Homepage> {
                    onTap: (){
                      Navigator.push(context, 
                      MaterialPageRoute(
-                       builder: (context)=> Taskpage()
+                       builder: (context)=> Taskpage(task: null)
                        ),
-                     );
+                     ).then((value){
+                       setState(() {});
+                     });
                    },
                  child: Container(  
                   width: 70.0,
@@ -80,9 +95,7 @@ class _HomepageStat extends State<Homepage> {
                  ),
                   child: Image(
                     image: AssetImage(
-                      //"assets\images\add_icon.png"
                       "assets/images/add_icon.png"
-                    
                      ),                  
                     ),
                  ),
