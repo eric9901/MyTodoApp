@@ -13,6 +13,7 @@ class DatabaseHelper {
       onCreate: (db, version) async {
         await db.execute(
             "CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, description TEXT)");
+
         return await db.execute(
             "CREATE TABLE todo(id INTEGER PRIMARY KEY, taskId INTEGER, title TEXT, isDone INTEGER)");
 
@@ -58,7 +59,7 @@ class DatabaseHelper {
       return Task(
           id: taskMap[index]['id'],
           title: taskMap[index]['title'],
-          description: taskMap[index]['destription']);
+          description: taskMap[index]['description']);
     });
   }
 
