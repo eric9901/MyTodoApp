@@ -136,10 +136,10 @@ class _TaskpageState extends State<Taskpage> {
                         controller: TextEditingController()
                           ..text = _taskDescription ?? "",
                         decoration: InputDecoration(
-                            hintText: "Enter Description for the task",
+                            hintText: "Enter Description for the task...",
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
-                              horizontal: 64.0,
+                              horizontal: 24.0,
                             )),
                       ),
                     ),
