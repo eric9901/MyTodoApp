@@ -240,15 +240,11 @@ class _TaskpageState extends State<Taskpage> {
                   bottom: 24.0,
                   right: 24.0,
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Taskpage(task: null),
-                        ),
-                      ).then((value) {
-                        setState(() {});
-                      });
+                    onTap: () async {
+                      if (_taskId != 0) {
+                        await _dbHelper.deleteTask(_taskId!);
+                        Navigator.pop(context);
+                      }
                     },
                     child: Container(
                       width: 70.0,
