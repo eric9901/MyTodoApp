@@ -18,6 +18,7 @@ class _TaskpageState extends State<Taskpage> {
   int? _taskId = 0;
   String? _taskTitle = "";
   String? _taskDescription = "";
+  String? _toDOText = "";
 
   FocusNode? _titleFocus;
   FocusNode? _descriptionForcus;
@@ -155,10 +156,21 @@ class _TaskpageState extends State<Taskpage> {
                               itemCount: snapshot.data.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
-                                  onTap: () {},
+                                  onTap: () async {
+                                    if (snapshot.data[index].isDone == 0) {
+                                      await _dbHelper.updateTodoDone(
+                                          snapshot.data[index].id, 1);
+                                    } else {
+                                      await _dbHelper.updateTodoDone(
+                                          snapshot.data[index].id, 0);
+                                    }
+                                    setState(() {});
+                                  },
                                   child: TodoWidget(
                                     text: snapshot.data[index].title,
-                                    isDone: false,
+                                    isDone: snapshot.data[index].isDone == 0
+                                        ? false
+                                        : true,
                                   ),
                                 );
                               },
@@ -192,6 +204,7 @@ class _TaskpageState extends State<Taskpage> {
                           Expanded(
                             child: TextField(
                                 focusNode: _todoFocus,
+                                controller: TextEditingController()..text = "",
                                 onSubmitted: (value) async {
                                   if (value != "") {
                                     if (_taskId != 0) {

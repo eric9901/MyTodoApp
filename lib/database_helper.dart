@@ -46,6 +46,11 @@ class DatabaseHelper {
         "UPDATE tasks SET description = '$description' WHERE id = '$id'");
   }
 
+  Future<void> updateTodoDone(int id, int isDone) async {
+    Database _db = await database();
+    await _db.rawUpdate("UPDATE todo SET isDone = '$isDone' WHERE id = '$id'");
+  }
+
   Future<void> insertTodo(Todo todo) async {
     Database _db = await database();
     await _db.insert('todo', todo.toMap(),
@@ -66,7 +71,7 @@ class DatabaseHelper {
   Future<List<Todo>> getTodos(int taskId) async {
     Database _db = await database();
     List<Map<String, dynamic>> todoMap =
-        await _db.rawQuery("SELECT * FROM Todo Where taskId = $taskId");
+        await _db.rawQuery("SELECT * FROM Todo WHERE taskId = $taskId");
     return List.generate(todoMap.length, (index) {
       return Todo(
           id: todoMap[index]['id'],
